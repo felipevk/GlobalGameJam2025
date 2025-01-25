@@ -41,6 +41,7 @@ function love.load()
         hotPearl = love.graphics.newImage("resources/sprites/hot.png"),
         healPearl = love.graphics.newImage("resources/sprites/heal.png"),
         straw = love.graphics.newImage("resources/sprites/straw.png"),
+        ice = love.graphics.newImage("resources/sprites/ice.png"),
     }
 
     input:bind('left', 'left')

@@ -34,22 +34,31 @@ function Play:new()
         self.cup[col]:setType('static')
     end
 
-    for i = 1, 10 do
-        self.area:addGameObject('Ice', self.cupX + i * 10 , gh /2 - 40, {w = 80, h = 80})
-    end
-
-    for i = 1, 40 do
-        self.area:addGameObject('Pearl', self.cupX + i * 10 , gh /2, 
-        {r = 25, type = 'normal', play = self})
-    end
-
-    self.level = 1
+    self.current_level = 0
+    self.current_level_index = 0
     self.consumed = 0
+    self.goal = 0
 
     self:startLevel()
 end
 
 function Play:startLevel()
+    self.current_level_index = self.current_level_index + 1
+    self.current_level = self.levels[self.current_level_index]
+
+    for i = 1, self.current_level.spawns:size() do
+        local toSpawn = self.current_level.spawns:next()
+        print(toSpawn)
+        if toSpawn == 'ice' then
+            self.area:addGameObject('Ice', self.cupX + i * 10 , gh /2 - 40, {w = 80, h = 80})
+        else
+            self.area:addGameObject('Pearl', self.cupX + i * 10 , gh /2, 
+            {r = 25, type = toSpawn, play = self})
+            if toSpawn == 'normal' then
+                self.goal = self.goal + 1
+            end
+        end
+    end
 
 end
 
@@ -70,7 +79,7 @@ function Play:draw()
     camera:attach(0, 0, gw, gh)
         self.area:draw()
         love.graphics.setFont(self.demoFont)
-        printInsideRect("Consumed: "..self.consumed, self.demoFont, "bottomLeft")
+        printInsideRect("Consumed: "..self.consumed.." / "..self.goal, self.demoFont, "bottomLeft")
   	camera:detach()
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)

@@ -17,7 +17,7 @@ function Ice:update(dt)
 end 
 
 function Ice:draw()
-
+    love.graphics.draw(sprites.ice, self.collider:getX(), self.collider:getY(), self.collider:getAngle(), nil, nil, sprites.ice:getWidth() / 2, sprites.ice:getWidth() / 2)
 end
 
 function Ice:destroy()
