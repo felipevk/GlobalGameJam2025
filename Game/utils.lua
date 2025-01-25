@@ -29,8 +29,16 @@ function distanceBetweenPoints(x1, y1, x2, y2)
     return math.sqrt((x2 - x1)^2 +(y2 - y1)^2)
 end
 
+function angleBetweenPoints(x1, y1, x2, y2)
+    return math.atan2(y2 - y1, x2 - x1)
+end
+
 function isInsideCircle(x, y, xC, yC, radius)
     return distanceBetweenPoints(x, y, xC, yC) <= radius
+end
+
+function isInsideRect(x, y, xR, yR, wR, hR)
+    return x >= xR and x < xR + wR and y >= yR and y < yR + hR
 end
 
 --[[

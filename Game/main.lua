@@ -19,7 +19,7 @@ function love.load()
     camera = Camera()
     draft = Draft()
 
-    --resize(2)
+    resize(0.5)
 
     GameObject = require("objects/GameObject")
 
@@ -45,7 +45,7 @@ function love.load()
     input:bind('w', 'up')
     input:bind('s', 'down')
 
-    gotoRoom("Room")
+    gotoRoom("Play")
 
     if debug then debugTools = DebugTools() end
 end

@@ -55,7 +55,7 @@ function Area:getClosestObject(x, y, radius, targets)
 end
 
 function Area:addPhysicsWorld()
-    self.world = Physics.newWorld(0, 0, true)
+    self.world = Physics.newWorld(0, 30, true)
     self.world:setQueryDebugDrawing(drawCol)
 end
 
