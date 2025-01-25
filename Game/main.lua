@@ -45,6 +45,8 @@ function love.load()
     input:bind('w', 'up')
     input:bind('s', 'down')
 
+    input:bind('mouse1', 'drink')
+
     gotoRoom("Play")
 
     if debug then debugTools = DebugTools() end

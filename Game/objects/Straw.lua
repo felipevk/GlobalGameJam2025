@@ -16,8 +16,8 @@ function Straw:new(area, x, y, opts)
         y = 190
     }
 
-    self.left = self.area.world:newRectangleCollider(self.x, self.y, self.h, 1)
-    self.right = self.area.world:newRectangleCollider(self.x, self.y - self.w, self.h + self.hOffset, 1)
+    self.left = self.area.world:newRectangleCollider(self.x, 0, self.h, 1)
+    self.right = self.area.world:newRectangleCollider(self.x, 0 - self.w, self.h + self.hOffset, 1)
 
     self.left:setType('static')
     self.right:setType('static')
@@ -34,12 +34,16 @@ function Straw:new(area, x, y, opts)
         x = 0,
         y = 0
     }
+    self.left:setAngle(math.pi / 2)
+    self.right:setAngle(math.pi / 2)
 
-    self.r = 0
+    self.isDrinking = false
 end
 
 function Straw:update(dt)
     Straw.super.update(self, dt)
+
+    self.isDrinking = false
 
     local mouseX = love.mouse.getX() / sx
     local mouseY = love.mouse.getY() / sy
@@ -66,8 +70,11 @@ function Straw:update(dt)
         self.right:setX(self.topRightStraw.x)
         self.right:setY(self.topRightStraw.y)
         self.right:setAngle(angleToPivot)
-    end
 
+        if input:pressed('drink') then
+            self.isDrinking = true
+        end
+    end
     
 end 
 

@@ -4,7 +4,7 @@ function Play:new()
     self.area = Area(self)
     self.area:addPhysicsWorld()
     --self.area.world:addCollisionClass('Straw')
-    --self.area.world:addCollisionClass('Pearls')
+    self.area.world:addCollisionClass('Pearl')
     --self.area.world:addCollisionClass('Background')
     self.room_canvas = love.graphics.newCanvas(gw, gh)
 
@@ -29,11 +29,12 @@ function Play:new()
     end
 
     for i = 1, 40 do
-        self.area.world:newCircleCollider(self.cupX + i * 10 , gh /2 , 20)
+        self.area:addGameObject('Pearl', self.cupX + i * 10 , gh /2, {r = 20})
     end
 
 
     self.level = 1
+    self.consumed = 0
 
     self:startLevel()
 end
@@ -59,13 +60,19 @@ function Play:draw()
     camera:attach(0, 0, gw, gh)
         self.area:draw()
         love.graphics.setFont(self.demoFont)
-        printInsideRect("Play", self.demoFont, "center")
+        printInsideRect("Consumed: "..self.consumed, self.demoFont, "bottomLeft")
   	camera:detach()
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setBlendMode('alpha', 'premultiplied')
     love.graphics.draw(self.room_canvas, 0, 0, 0, sx, sy)
     love.graphics.setBlendMode('alpha')
+end
+
+function Play:destroy()
+    self.area:destroy()
+    self.area = nil
+    self.straw = nil
 end
 
 return Play
