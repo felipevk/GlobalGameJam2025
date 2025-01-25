@@ -19,6 +19,6 @@
 [submodule "Game/libraries/anim8"]
 	path = Game/libraries/anim8
 	url = https://github.com/kikito/anim8.git
-[submodule "Game/libraries/Simple-Tiled-Implementation"]
-	path = Game/libraries/Simple-Tiled-Implementation
+[submodule "Simple-Tiled-Implementation"]
+	path = Simple-Tiled-Implementation
 	url = https://github.com/karai17/Simple-Tiled-Implementation.git
