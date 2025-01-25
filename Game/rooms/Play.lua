@@ -22,14 +22,17 @@ function Play:new()
         self.area.world:newLineCollider(self.cupX, self.cupY, self.cupX, self.cupY + self.cupH),
         self.area.world:newLineCollider(self.cupX + self.cupW, self.cupY, self.cupX + self.cupW, self.cupY + self.cupH),
         self.area.world:newLineCollider(self.cupX, self.cupY + self.cupH, self.cupX + self.cupW, self.cupY + self.cupH),
+        self.area.world:newLineCollider(self.cupX, self.cupY, self.cupX + self.cupW / 2 - 30, self.cupY),
+        self.area.world:newLineCollider(self.cupX + self.cupW / 2 + 30, self.cupY, self.cupX + self.cupW, self.cupY),
     }
 
-    for col = 1, 3 do
+    for col = 1, 5 do
         self.cup[col]:setType('static')
     end
 
     for i = 1, 40 do
-        self.area:addGameObject('Pearl', self.cupX + i * 10 , gh /2, {r = 20})
+        self.area:addGameObject('Pearl', self.cupX + i * 10 , gh /2, 
+        {r = 25, type = 'normal', play = self})
     end
 
 
@@ -67,6 +70,11 @@ function Play:draw()
     love.graphics.setBlendMode('alpha', 'premultiplied')
     love.graphics.draw(self.room_canvas, 0, 0, 0, sx, sy)
     love.graphics.setBlendMode('alpha')
+end
+
+function Play:consumePearl(type)
+    self.consumed = self.consumed + 1
+    print(self.consumed)
 end
 
 function Play:destroy()

@@ -3,8 +3,8 @@ local Straw = GameObject:extend()
 function Straw:new(area, x, y, opts)
     Straw.super.new(self, area, x, y, opts)
 
-    self.x, self.y = x - 25, y + 50
-    self.w = 50
+    self.x, self.y = x - 30, y + 30
+    self.w = 60
     self.h = 1000
     self.hOffset = 40
 
@@ -73,6 +73,37 @@ function Straw:update(dt)
 
         if input:pressed('drink') then
             self.isDrinking = true
+
+            local queryPoint = movePointDistanceAngle(mouseX, mouseY, 20, angleToPivot - math.pi / 2)
+
+            
+            local colliders = self.area.world:queryCircleArea(queryPoint.x, queryPoint.y, 60, {'Pearl'})
+            for i = 1, #colliders do
+                local forceIntensity = 30000
+                local forceDir = Vector(mouseX - colliders[i]:getX(), mouseY - colliders[i]:getY()):normalized()
+                colliders[i]:applyForce( forceDir.x * forceIntensity,  forceDir.y * forceIntensity)
+            end
+
+            local topLeftExtended = movePointDistanceAngle(self.topLeftStraw.x, self.topLeftStraw.y, self.h, angleToPivot)
+            local topRightExtended = movePointDistanceAngle(self.topRightStraw.x, self.topRightStraw.y, self.h, angleToPivot)
+            local bottomLeftStraw = movePointDistanceAngle(self.topLeftStraw.x, self.topLeftStraw.y, self.h * 0.8, angleToPivot + math.pi)
+            local bottomRightStraw = movePointDistanceAngle(self.topRightStraw.x, self.topRightStraw.y, self.h *0.8, angleToPivot + math.pi)
+            local verts = {
+                topLeftExtended.x, topLeftExtended.y,
+                topRightExtended.x, topRightExtended.y,
+                bottomRightStraw.x, bottomRightStraw.y,
+                bottomLeftStraw.x, bottomLeftStraw.y,
+            }
+            local colliders = self.area.world:queryPolygonArea(verts, {'Pearl'})
+            for i = 1, #colliders do
+                local distanceToTop = distanceBetweenPoints(colliders[i]:getX(), colliders[i]:getY(), topLeftExtended.x, topLeftExtended.y)
+                if distanceToTop > 0 then
+                    
+                    local forceIntensity = 90000 / (distanceToTop / 1000)
+                    local forceDir = Vector(math.cos(angleToPivot), math.sin(angleToPivot))
+                    colliders[i]:applyForce( forceDir.x * forceIntensity,  forceDir.y * forceIntensity)
+                end
+            end
         end
     end
     
