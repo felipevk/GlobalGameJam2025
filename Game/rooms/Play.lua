@@ -13,6 +13,10 @@ function Play:new()
     self.cupX = gw / 2 - self.cupW / 2
     self.cupY = 200
 
+    self.levels = {
+        {spawns = chanceList({'normal', 8}, {'ice', 4}), time = 10, color = {241/255, 103/255, 69/255} }
+    }
+
     self.straw = self.area:addGameObject('Straw', gw / 2, 10, 
     {cupX = self.cupX, cupY = self.cupY, cupW = self.cupW, cupH = self.cupH})
 

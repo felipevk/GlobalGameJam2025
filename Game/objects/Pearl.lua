@@ -7,6 +7,7 @@ function Pearl:new(area, x, y, opts)
     self.r = opts.r
     self.type = opts.type
     self.play = opts.play
+    self.depth = 40
 
     self.collider = self.area.world:newCircleCollider(self.x , self.y, self.r)
     self.collider:setCollisionClass('Pearl')
@@ -23,7 +24,11 @@ function Pearl:update(dt)
 end 
 
 function Pearl:draw()
-
+    local sprite = sprites.normalPearl
+    if self.type == 'normal' then
+        sprite = sprites.normalPearl
+    end
+    love.graphics.draw(sprite, self.collider:getX(), self.collider:getY(), 0, nil, nil, sprite:getWidth() / 2, sprite:getWidth() / 2)
 end
 
 function Pearl:die()

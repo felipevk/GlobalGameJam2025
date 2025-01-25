@@ -7,6 +7,7 @@ function Straw:new(area, x, y, opts)
     self.w = 60
     self.h = 1000
     self.hOffset = 40
+    self.depth = 50
 
     self.cupX, self.cupY = opts.cupX, opts.cupY
     self.cupW, self.cupH = opts.cupW, opts.cupH
@@ -38,6 +39,12 @@ function Straw:new(area, x, y, opts)
     self.right:setAngle(math.pi / 2)
 
     self.isDrinking = false
+    self.angleToPivot = 0
+
+    self.strawSpritePos = {
+        x = 0,
+        y = 0
+    }
 end
 
 function Straw:update(dt)
@@ -52,29 +59,30 @@ function Straw:update(dt)
         --find angle and distance between mouse and pivot
         --get remainig distance and find top of straw
         --angle between top of straw and mouse
-        local angleToPivot = angleBetweenPoints(mouseX, mouseY , self.pivotPoint.x , self.pivotPoint.y)
+        self.strawSpritePos.x, self.strawSpritePos.y = mouseX, mouseY
+        self.angleToPivot = angleBetweenPoints(mouseX, mouseY , self.pivotPoint.x , self.pivotPoint.y)
         local distanceToPivot = distanceBetweenPoints(mouseX, mouseY , self.pivotPoint.x , self.pivotPoint.y)
         local distancePivotToTop = self.h - distanceToPivot
         
-        self.topStraw = movePointDistanceAngle(self.pivotPoint.x, self.pivotPoint.y, distancePivotToTop, angleToPivot)
+        self.topStraw = movePointDistanceAngle(self.pivotPoint.x, self.pivotPoint.y, distancePivotToTop, self.angleToPivot)
         
-        local top = movePointDistanceAngle(mouseX , mouseY, self.h / 2, angleToPivot)
-        local topOff = movePointDistanceAngle(mouseX , mouseY, self.h / 2 + self.hOffset, angleToPivot)
-        self.topLeftStraw = movePointDistanceAngle(topOff.x , topOff.y, self.w / 2, angleToPivot - math.pi / 2)
-        self.topRightStraw = movePointDistanceAngle(top.x , top.y, self.w / 2, angleToPivot + math.pi / 2)
+        local top = movePointDistanceAngle(mouseX , mouseY, self.h / 2, self.angleToPivot)
+        local topOff = movePointDistanceAngle(mouseX , mouseY, self.h / 2 + self.hOffset, self.angleToPivot)
+        self.topLeftStraw = movePointDistanceAngle(topOff.x , topOff.y, self.w / 2, self.angleToPivot - math.pi / 2)
+        self.topRightStraw = movePointDistanceAngle(top.x , top.y, self.w / 2, self.angleToPivot + math.pi / 2)
         
         self.left:setX(self.topLeftStraw.x)
         self.left:setY(self.topLeftStraw.y)
-        self.left:setAngle(angleToPivot)
+        self.left:setAngle(self.angleToPivot)
 
         self.right:setX(self.topRightStraw.x)
         self.right:setY(self.topRightStraw.y)
-        self.right:setAngle(angleToPivot)
+        self.right:setAngle(self.angleToPivot)
 
         if input:pressed('drink') then
             self.isDrinking = true
 
-            local queryPoint = movePointDistanceAngle(mouseX, mouseY, 20, angleToPivot - math.pi / 2)
+            local queryPoint = movePointDistanceAngle(mouseX, mouseY, 20, self.angleToPivot - math.pi / 2)
 
             
             local colliders = self.area.world:queryCircleArea(queryPoint.x, queryPoint.y, 60, {'Pearl'})
@@ -84,10 +92,10 @@ function Straw:update(dt)
                 colliders[i]:applyForce( forceDir.x * forceIntensity,  forceDir.y * forceIntensity)
             end
 
-            local topLeftExtended = movePointDistanceAngle(self.topLeftStraw.x, self.topLeftStraw.y, self.h, angleToPivot)
-            local topRightExtended = movePointDistanceAngle(self.topRightStraw.x, self.topRightStraw.y, self.h, angleToPivot)
-            local bottomLeftStraw = movePointDistanceAngle(self.topLeftStraw.x, self.topLeftStraw.y, self.h * 0.8, angleToPivot + math.pi)
-            local bottomRightStraw = movePointDistanceAngle(self.topRightStraw.x, self.topRightStraw.y, self.h *0.8, angleToPivot + math.pi)
+            local topLeftExtended = movePointDistanceAngle(self.topLeftStraw.x, self.topLeftStraw.y, self.h, self.angleToPivot)
+            local topRightExtended = movePointDistanceAngle(self.topRightStraw.x, self.topRightStraw.y, self.h, self.angleToPivot)
+            local bottomLeftStraw = movePointDistanceAngle(self.topLeftStraw.x, self.topLeftStraw.y, self.h * 0.8, self.angleToPivot + math.pi)
+            local bottomRightStraw = movePointDistanceAngle(self.topRightStraw.x, self.topRightStraw.y, self.h *0.8, self.angleToPivot + math.pi)
             local verts = {
                 topLeftExtended.x, topLeftExtended.y,
                 topRightExtended.x, topRightExtended.y,
@@ -100,7 +108,7 @@ function Straw:update(dt)
                 if distanceToTop > 0 then
                     
                     local forceIntensity = 90000 / (distanceToTop / 1000)
-                    local forceDir = Vector(math.cos(angleToPivot), math.sin(angleToPivot))
+                    local forceDir = Vector(math.cos(self.angleToPivot), math.sin(self.angleToPivot))
                     colliders[i]:applyForce( forceDir.x * forceIntensity,  forceDir.y * forceIntensity)
                 end
             end
@@ -116,6 +124,9 @@ function Straw:draw()
     love.graphics.circle('fill',self.topRightStraw.x,self.topRightStraw.y,5)
     love.graphics.setColor(0,1,0,1)
     love.graphics.circle('fill',self.pivotPoint.x,self.pivotPoint.y,5)
+    love.graphics.setColor(1,1,1,0.8)
+
+    love.graphics.draw(sprites.straw, self.strawSpritePos.x, self.strawSpritePos.y, self.angleToPivot - math.pi, nil, nil, sprites.straw:getWidth(), sprites.straw:getHeight() / 2)
     love.graphics.setColor(1,1,1,1)
 end
 

@@ -36,6 +36,13 @@ function love.load()
 
     flash_frames = nil
 
+    sprites = {
+        normalPearl = love.graphics.newImage("resources/sprites/normal.png"),
+        hotPearl = love.graphics.newImage("resources/sprites/hot.png"),
+        healPearl = love.graphics.newImage("resources/sprites/heal.png"),
+        straw = love.graphics.newImage("resources/sprites/straw.png"),
+    }
+
     input:bind('left', 'left')
     input:bind('right', 'right')
     input:bind('a', 'left')
