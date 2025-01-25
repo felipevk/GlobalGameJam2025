@@ -2,6 +2,7 @@ local Play = Object:extend()
 
 function Play:new()
     self.area = Area(self)
+    self.timer = Timer()
     self.area:addPhysicsWorld()
     --self.area.world:addCollisionClass('Straw')
     self.area.world:addCollisionClass('Pearl')
@@ -14,7 +15,10 @@ function Play:new()
     self.cupY = 200
 
     self.levels = {
-        {spawns = chanceList({'normal', 8}, {'ice', 4}), time = 10, color = {241/255, 103/255, 69/255} }
+        {spawns = chanceList({'normal', 8}, {'ice', 4}), time = 10, color = {241/255, 103/255, 69/255} },
+        {spawns = chanceList({'normal', 8}, {'ice', 4}, {'hot', 4}), time = 10, color = {241/255, 103/255, 69/255} },
+        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}), time = 10, color = {241/255, 103/255, 69/255} },
+        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}, {'heal', 6}), time = 10, color = {241/255, 103/255, 69/255} },
     }
 
     self.straw = self.area:addGameObject('Straw', gw / 2, 10, 
@@ -38,13 +42,33 @@ function Play:new()
     self.current_level_index = 0
     self.consumed = 0
     self.goal = 0
+    self.isLevelComplete = false
+    self.maxHp = 5
+    self.hp = self.maxHp
 
     self:startLevel()
 end
 
 function Play:startLevel()
+
+    local previousObjects = self.area:getGameObjects(
+        function(obj)
+            return obj.class == 'Pearl' or obj.class == 'Ice'
+        end
+    )
+
+    M.each(previousObjects, 
+        function(o, _)
+            o:die()
+        end
+    )
+
     self.current_level_index = self.current_level_index + 1
     self.current_level = self.levels[self.current_level_index]
+
+    self.goal = 0
+    self.consumed = 0
+    self.isLevelComplete = false
 
     for i = 1, self.current_level.spawns:size() do
         local toSpawn = self.current_level.spawns:next()
@@ -63,11 +87,19 @@ function Play:startLevel()
 end
 
 function Play:update(dt)
+    if self.timer then self.timer:update(dt) end
     -- this keeps the camera centered after shake
     camera.smoother = Camera.smooth.damped(5)
     camera:lockPosition(dt, gw/2, gh/2)
     
     self.area:update(dt)
+
+    if not self.isLevelComplete then
+        if self.consumed == self.goal then
+            self.isLevelComplete = true
+            self.timer:after(2, function() self:startLevel() end)
+        end
+    end
 end
 
 --[[
@@ -80,6 +112,7 @@ function Play:draw()
         self.area:draw()
         love.graphics.setFont(self.demoFont)
         printInsideRect("Consumed: "..self.consumed.." / "..self.goal, self.demoFont, "bottomLeft")
+        printInsideRect("Hp: "..self.hp.." / "..self.maxHp, self.demoFont, "bottomRight")
   	camera:detach()
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)
@@ -89,7 +122,13 @@ function Play:draw()
 end
 
 function Play:consumePearl(type)
-    self.consumed = self.consumed + 1
+    if type == 'normal' then
+        self.consumed = self.consumed + 1
+    elseif type == 'hot' then
+        self.hp = math.max(self.hp - 1, 0)
+    elseif type == 'heal' then
+        self.hp = math.min(self.hp + 1, self.maxHp)
+    end
 end
 
 function Play:destroy()

@@ -27,6 +27,10 @@ function Pearl:draw()
     local sprite = sprites.normalPearl
     if self.type == 'normal' then
         sprite = sprites.normalPearl
+    elseif self.type == 'hot' then
+        sprite = sprites.hotPearl
+    elseif self.type == 'heal' then
+        sprite = sprites.healPearl
     end
     love.graphics.draw(sprite, self.collider:getX(), self.collider:getY(), 0, nil, nil, sprite:getWidth() / 2, sprite:getWidth() / 2)
 end
