@@ -42,20 +42,25 @@ function love.load()
         healPearl = love.graphics.newImage("resources/sprites/heal.png"),
         straw = love.graphics.newImage("resources/sprites/straw.png"),
         ice = love.graphics.newImage("resources/sprites/ice.png"),
+        background = love.graphics.newImage("resources/sprites/background.png"),
+        table = love.graphics.newImage("resources/sprites/table.png"),
+        cup = love.graphics.newImage("resources/sprites/cup.png"),
+        shadow = love.graphics.newImage("resources/sprites/shadow.png"),
     }
 
-    input:bind('left', 'left')
+    --[[input:bind('left', 'left')
     input:bind('right', 'right')
     input:bind('a', 'left')
     input:bind('d', 'right')
     input:bind('up', 'up')
     input:bind('down', 'down')
     input:bind('w', 'up')
-    input:bind('s', 'down')
+    input:bind('s', 'down')]]
 
     input:bind('mouse1', 'drink')
+    input:bind('mouse2', 'shortcut')
 
-    gotoRoom("Play")
+    gotoRoom("Start")
 
     if debug then debugTools = DebugTools() end
 end
@@ -63,11 +68,15 @@ end
 function love.update(dt)
     timer:update(dt*slow_amount)
     camera:update(dt*slow_amount)
-    if current_room then current_room:update(dt*slow_amount) end
+    if current_room then
+        if current_room.name then print("updating "..current_room.name) end
+         current_room:update(dt*slow_amount) 
+        end
     if debug then debugTools:update(dt) end
 end
 
 function love.draw()
+    love.graphics.draw(sprites.background, 0, 0, 0, sx, sy)
     if current_room then current_room:draw() end
 
     if flash_frames then 
@@ -89,6 +98,7 @@ end
 function gotoRoom(room_type, ...)
     if current_room and current_room.destroy then current_room:destroy() end
     current_room = _G[room_type](...)
+    print(current_room.name)
 end
 
 --[[

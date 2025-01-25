@@ -6,6 +6,10 @@ function Credits:new()
     self.room_canvas = love.graphics.newCanvas(gw, gh)
 
     self.demoFont = love.graphics.newFont(40)
+
+    self.name = 'credits'
+
+    print("credits here")
 end
 
 function Credits:update(dt)
@@ -14,6 +18,10 @@ function Credits:update(dt)
     camera:lockPosition(dt, gw/2, gh/2)
     
     self.area:update(dt)
+
+    if input:pressed('drink') then
+        gotoRoom('Start')
+    end
 end
 
 --[[
@@ -34,4 +42,4 @@ function Credits:draw()
     love.graphics.setBlendMode('alpha')
 end
 
-return Room
+return Credits

@@ -3,6 +3,8 @@ local Start = Object:extend()
 function Start:new()
     self.area = Area(self)
     self.room_canvas = love.graphics.newCanvas(gw, gh)
+
+    self.demoFont = love.graphics.newFont(40)
 end
 
 function Start:update(dt)
@@ -11,6 +13,10 @@ function Start:update(dt)
     camera:lockPosition(dt, gw/2, gh/2)
     
     self.area:update(dt)
+
+    if input:pressed('drink') then
+        gotoRoom('Play')
+    end
 end
 
 --[[
@@ -22,7 +28,7 @@ function Start:draw()
     camera:attach(0, 0, gw, gh)
         self.area:draw()
         love.graphics.setFont(self.demoFont)
-        printInsideRect("Start!", self.demoFont, "center")
+        printInsideRect("Click to start!", self.demoFont, "center")
   	camera:detach()
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)
