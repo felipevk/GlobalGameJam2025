@@ -34,11 +34,14 @@ function Play:new()
         self.cup[col]:setType('static')
     end
 
+    for i = 1, 10 do
+        self.area:addGameObject('Ice', self.cupX + i * 10 , gh /2 - 40, {w = 80, h = 80})
+    end
+
     for i = 1, 40 do
         self.area:addGameObject('Pearl', self.cupX + i * 10 , gh /2, 
         {r = 25, type = 'normal', play = self})
     end
-
 
     self.level = 1
     self.consumed = 0
@@ -78,7 +81,6 @@ end
 
 function Play:consumePearl(type)
     self.consumed = self.consumed + 1
-    print(self.consumed)
 end
 
 function Play:destroy()
