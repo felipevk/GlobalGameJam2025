@@ -19,10 +19,10 @@ function Play:new()
     self.levels = {
         {spawns = chanceList({'normal', 8}, {'ice', 4}), time = 10, color = brown },
         {spawns = chanceList({'normal', 8}, {'ice', 4}, {'hot', 4}), time = 10, color = orange },
-        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 4}), time = 10, color = matcha },
-        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}, {'heal', 6}), time = 10, color = pink },
-        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}, {'heal', 6}), time = 10, color = mango },
-        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}, {'heal', 6}), time = 10, color = cyan },
+        {spawns = chanceList({'normal', 10}, {'ice', 5}, {'hot', 4}), time = 10, color = matcha },
+        {spawns = chanceList({'normal', 10}, {'ice', 6}, {'hot', 6}, {'heal', 6}), time = 10, color = pink },
+        {spawns = chanceList({'normal', 10}, {'ice', 8}, {'hot', 6}, {'heal', 6}), time = 10, color = mango },
+        {spawns = chanceList({'normal', 12}, {'ice', 8}, {'hot', 7}, {'heal', 4}), time = 10, color = cyan },
     }
 
     self.straw = self.area:addGameObject('Straw', gw / 2, 10, 
@@ -45,7 +45,7 @@ function Play:new()
     end
 
     self.current_level = {}
-    self.current_level_index = 5
+    self.current_level_index = 0
     self.maxHp = 4
     self.hp = self.maxHp
     self.isGameOver = false
