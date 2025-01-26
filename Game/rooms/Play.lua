@@ -21,7 +21,7 @@ function Play:new()
         y = 0
     }
 
-    self.timer:tween(0.5, self.canvasPos, {x = 0, y = 0}, 'in-out-cubic')
+    self.timer:tween(0.3, self.canvasPos, {x = 0, y = 0}, 'in-out-cubic')
 
     self.levels = {
         {spawns = chanceList({'normal', 8}, {'ice', 4}), time = 10, color = brown },
