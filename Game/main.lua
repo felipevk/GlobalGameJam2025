@@ -51,6 +51,9 @@ function love.load()
         h2 = love.graphics.newImage("resources/sprites/h2.png"),
         h1 = love.graphics.newImage("resources/sprites/h1.png"),
         h0 = love.graphics.newImage("resources/sprites/h0.png"),
+        liquid = love.graphics.newImage("resources/sprites/liquid.png"),
+        progress = love.graphics.newImage("resources/sprites/progress.png"),
+        progressIndicator = love.graphics.newImage("resources/sprites/progressIndicator.png"),
     }
 
     sounds = {
@@ -60,6 +63,7 @@ function love.load()
         normal = love.audio.newSource("resources/audio/normal.wav", "static"),
         hot = love.audio.newSource("resources/audio/hot.wav", "static"),
         heal = love.audio.newSource("resources/audio/heal.wav", "static"),
+        complete = love.audio.newSource("resources/audio/complete.wav", "static"),
     }
 
     sounds.main:setLooping(true)

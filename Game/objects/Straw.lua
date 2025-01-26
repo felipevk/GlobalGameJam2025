@@ -124,7 +124,7 @@ function Straw:draw()
     --love.graphics.circle('fill',self.topRightStraw.x,self.topRightStraw.y,5)
     love.graphics.setColor(0,1,0,1)
     --love.graphics.circle('fill',self.pivotPoint.x,self.pivotPoint.y,5)
-    love.graphics.setColor(1,1,1,0.5)
+    love.graphics.setColor(1,1,1,0.6)
 
     love.graphics.draw(sprites.straw, self.strawSpritePos.x, self.strawSpritePos.y, self.angleToPivot - math.pi, nil, nil, sprites.straw:getWidth(), sprites.straw:getHeight() / 2)
     love.graphics.setColor(1,1,1,1)

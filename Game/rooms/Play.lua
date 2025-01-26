@@ -17,10 +17,12 @@ function Play:new()
     self.name = 'play'
 
     self.levels = {
-        {spawns = chanceList({'normal', 8}, {'ice', 4}), time = 10, color = {241/255, 103/255, 69/255} },
-        {spawns = chanceList({'normal', 8}, {'ice', 4}, {'hot', 4}), time = 10, color = {241/255, 103/255, 69/255} },
-        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}), time = 10, color = {241/255, 103/255, 69/255} },
-        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}, {'heal', 6}), time = 10, color = {241/255, 103/255, 69/255} },
+        {spawns = chanceList({'normal', 8}, {'ice', 4}), time = 10, color = brown },
+        {spawns = chanceList({'normal', 8}, {'ice', 4}, {'hot', 4}), time = 10, color = orange },
+        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}), time = 10, color = matcha },
+        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}, {'heal', 6}), time = 10, color = pink },
+        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}, {'heal', 6}), time = 10, color = mango },
+        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}, {'heal', 6}), time = 10, color = cyan },
     }
 
     self.straw = self.area:addGameObject('Straw', gw / 2, 10, 
@@ -48,12 +50,15 @@ function Play:new()
     self.hp = self.maxHp
 
     self.levelStats = {
+        current_time = 0,
         consumed = 0,
         goal = 0,
         isComplete = false,
     }
 
     self.area:addGameObject('Portrait', gw - 200 - 32, 32, {play = self})
+
+    self.area:addGameObject('Progress', gw / 2 - sprites.progress:getWidth() / 2, gh - 36 - sprites.progress:getHeight(), {play = self})
 
     self:startLevel()
 end
@@ -85,6 +90,7 @@ function Play:startLevel()
     self.current_level = self.levels[self.current_level_index]
 
     self.levelStats = {
+        current_time = 0,
         consumed = 0,
         goal = 0,
         isComplete = false,
@@ -118,6 +124,7 @@ function Play:update(dt)
 
     if not self.levelStats.isComplete then
         if self.levelStats.consumed == self.levelStats.goal then
+            sounds.complete:play()
             self.levelStats.isComplete = true
             self.timer:after(2, function() self:startLevel() end)
         end
@@ -133,6 +140,10 @@ function Play:draw()
     camera:attach(0, 0, gw, gh)
         love.graphics.draw(sprites.table, 0, gh - sprites.table:getHeight(), 0)
         love.graphics.draw(sprites.shadow, gw / 2 - sprites.shadow:getWidth() / 2, 900, 0, nil, nil, 0 ,sprites.shadow:getHeight() / 2)
+        love.graphics.setColor(self.current_level.color)
+        love.graphics.draw(sprites.liquid, gw / 2 - sprites.liquid:getWidth() / 2, 900, 0, nil, nil, 0 ,sprites.liquid:getHeight())
+        love.graphics.setColor(1, 1, 1, 1)
+        
         love.graphics.draw(sprites.cup, gw / 2 - sprites.cup:getWidth() / 2, 900, 0, nil, nil, 0 ,sprites.cup:getHeight())
         
         local cupXOffset = 800
@@ -149,7 +160,7 @@ function Play:draw()
         love.graphics.setFont(self.demoFont)
         printInsideRect("Consumed: "..self.levelStats.consumed.." / "..self.levelStats.goal, self.demoFont, "bottomLeft")
         --printInsideRect("Hp: "..self.hp.." / "..self.maxHp, self.demoFont, "bottomRight")
-        printInsideRect("Progress: "..self.current_level_index.." / "..#self.levels, self.demoFont, "bottom")
+        --printInsideRect("Progress: "..self.current_level_index.." / "..#self.levels, self.demoFont, "bottom")
   	camera:detach()
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)
