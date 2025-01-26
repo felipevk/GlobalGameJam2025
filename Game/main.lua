@@ -88,7 +88,7 @@ function love.load()
     input:bind('s', 'down')]]
 
     input:bind('mouse1', 'drink')
-    input:bind('mouse2', 'shortcut')
+    input:bind('f2', 'shortcut')
 
     gotoRoom("Start")
 
@@ -128,7 +128,7 @@ end
 function gotoRoom(room_type, ...)
     if current_room and current_room.destroy then current_room:destroy() end
     current_room = _G[room_type](...)
-    print(current_room.name)
+    --print(current_room.name)
 end
 
 --[[

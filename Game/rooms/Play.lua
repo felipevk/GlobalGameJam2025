@@ -50,6 +50,9 @@ function Play:new()
     self.hp = self.maxHp
     self.isGameOver = false
 
+    self.endAlpha = 0.5
+    self.currentEndAlpha = 0
+
     self.levelStats = {
         current_time = 0,
         consumed = 0,
@@ -80,9 +83,11 @@ function Play:startLevel()
 
     if self.current_level_index == #self.levels then
         self.isGameOver = true
-        self.timer:after(1, function()
-            sounds.gameOver:play()
-            -- show celebration and go to credits
+        self.timer:after(0.5, function()
+            self.timer:tween(1, self, {currentEndAlpha = self.endAlpha}, 'linear', 
+            function() 
+                sounds.gameOver:play()
+            end)
          end)
          self.timer:after(3, function()
             gotoRoom('Credits')
@@ -117,7 +122,7 @@ end
 
 function Play:update(dt)
     if input:pressed('shortcut') then
-        gotoRoom('Start')
+        gotoRoom('Credits')
         return
     end
     if self.timer then self.timer:update(dt) end
@@ -137,9 +142,17 @@ function Play:update(dt)
         
         elseif self.hp <= 0 then
             self.levelStats.isComplete = true
-            sounds.loss:play()
-            self.isGameOver = true
-            self.timer:after(2, function() gotoRoom('Start') end)
+            
+            self.timer:after(0.5, function()
+                self.isGameOver = true
+                self.timer:tween(1, self, {currentEndAlpha = self.endAlpha}, 'linear', 
+                function() 
+                    sounds.loss:play()
+                end)
+             end)
+             self.timer:after(3, function()
+                gotoRoom('Start')
+             end)
         end
     end
 end
@@ -170,8 +183,25 @@ function Play:draw()
         end
         love.graphics.draw(sprites.instructions, 20, 50, 0, nil, nil, 0 )
         self.area:draw()
+
+        if self.isGameOver then
+            love.graphics.setColor(0, 0, 0, self.currentEndAlpha)
+            love.graphics.rectangle("fill", 0, 0, gw, gh)
+
+            local textA = self.currentEndAlpha < self.endAlpha and self.currentEndAlpha or 1
+            
+            if self.hp == 0 then
+                love.graphics.setColor(1, 1, 1, textA)
+                printInsideRect("You died while drinking bubble tea", fonts.qilka, "center")
+            else
+                love.graphics.setColor(0, 1, 0, textA)
+                printInsideRect("You win!", fonts.qilka, "center")
+            end
+
+            love.graphics.setColor(1, 1, 1, 1)
+        end
         
-        love.graphics.setFont(self.demoFont)
+        --love.graphics.setFont(self.demoFont)
         --printInsideRect("Consumed: "..self.levelStats.consumed.." / "..self.levelStats.goal, self.demoFont, "bottomLeft")
         --printInsideRect("Hp: "..self.hp.." / "..self.maxHp, self.demoFont, "bottomRight")
         --printInsideRect("Progress: "..self.current_level_index.." / "..#self.levels, self.demoFont, "bottom")
@@ -190,7 +220,6 @@ function Play:consumePearl(type)
     elseif type == 'hot' then
         self.hp = math.max(self.hp - 1, 0)
         sounds.hot:play()
-        print("damaged "..self.hp)
         flash(4, {224/255, 120/255, 23/255, 0.3})
         camera:shake(6, 60, 0.4)
     elseif type == 'heal' then
