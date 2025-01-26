@@ -113,9 +113,9 @@ function Play:startLevel()
 end
 
 function Play:update(dt)
-    --[[if input:pressed('shortcut') then
+    if input:pressed('shortcut') then
         gotoRoom('Start')
-    end]]
+    end
     if self.timer then self.timer:update(dt) end
     -- this keeps the camera centered after shake
     camera.smoother = Camera.smooth.damped(5)
@@ -183,6 +183,8 @@ function Play:consumePearl(type)
         self.hp = math.max(self.hp - 1, 0)
         sounds.hot:play()
         print("damaged "..self.hp)
+        flash(4, {224/255, 120/255, 23/255, 0.3})
+        camera:shake(6, 60, 0.4)
     elseif type == 'heal' then
         self.hp = math.min(self.hp + 1, self.maxHp)
         sounds.heal:play()
