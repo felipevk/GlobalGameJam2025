@@ -19,7 +19,7 @@ function love.load()
     camera = Camera()
     draft = Draft()
 
-    resize(0.5)
+    resize(0.667)
 
     GameObject = require("objects/GameObject")
 
@@ -56,6 +56,8 @@ function love.load()
         progressIndicator = love.graphics.newImage("resources/sprites/progressIndicator.png"),
         instructions = love.graphics.newImage("resources/sprites/instructions.png"),
         title = love.graphics.newImage("resources/sprites/title.png"),
+        ggj = love.graphics.newImage("resources/sprites/ggjv.png"),
+        breakPearl = love.graphics.newImage("resources/sprites/break.png"),
     }
 
     sounds = {
@@ -90,6 +92,7 @@ function love.load()
 
     input:bind('mouse1', 'drink')
     input:bind('f2', 'shortcut')
+    input:bind('escape', 'exit')
 
     gotoRoom("Start")
 
@@ -97,6 +100,9 @@ function love.load()
 end
 
 function love.update(dt)
+    if input:pressed('exit') then
+        love.event.quit()
+    end
     timer:update(dt*slow_amount)
     camera:update(dt*slow_amount)
     if current_room then

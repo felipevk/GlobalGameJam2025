@@ -26,10 +26,11 @@ function Play:new()
     self.levels = {
         {spawns = chanceList({'normal', 8}, {'ice', 4}), time = 10, color = brown },
         {spawns = chanceList({'normal', 8}, {'ice', 4}, {'hot', 4}), time = 10, color = orange },
-        {spawns = chanceList({'normal', 10}, {'ice', 5}, {'hot', 4}), time = 10, color = matcha },
+        {spawns = chanceList({'normal', 1}, {'ice', 30}, {'hot', 4}), time = 10, color = matcha },
         {spawns = chanceList({'normal', 10}, {'ice', 6}, {'hot', 6}, {'heal', 6}), time = 10, color = pink },
+        {spawns = chanceList({'normal', 1}, {'ice', 30}, {'hot', 4}, {'break', 1}), time = 10, color = matcha },
         {spawns = chanceList({'normal', 10}, {'ice', 8}, {'hot', 6}, {'heal', 6}), time = 10, color = mango },
-        {spawns = chanceList({'normal', 12}, {'ice', 8}, {'hot', 7}, {'heal', 4}), time = 10, color = cyan },
+        {spawns = chanceList({'normal', 12}, {'ice', 15}, {'hot', 7}, {'heal', 4}, {'break', 1}), time = 10, color = cyan },
     }
 
     self.straw = self.area:addGameObject('Straw', gw / 2, 10, 
@@ -232,6 +233,20 @@ function Play:consumePearl(type)
     elseif type == 'heal' then
         self.hp = math.min(self.hp + 1, self.maxHp)
         flash(4, {123/255, 166/255, 70/255, 0.3})
+        sounds.heal:play()
+    elseif type == 'break' then
+        camera:shake(10, 60, 1)
+       local iceObjs = self.area:getGameObjects(
+        function(obj)
+            return obj.class == 'Ice'
+        end)
+
+        M.each(iceObjs, 
+            function(o, _)
+                o:die()
+            end
+        )
+        --change to new sound
         sounds.heal:play()
     end
 end

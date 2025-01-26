@@ -9,7 +9,17 @@ function Credits:new()
 
     self.name = 'credits'
 
-    print("credits here")
+    self.titleScale = 0.4
+    self.ggjScale = 0.75
+
+    self.text =
+    {
+        "Pedro Kauati - Programmer",
+        "An Tran - 2D Artist",
+        "Nicholas Marriott - Music and Sound Design",
+        "Game Font: Qilka by Rahagita Studio",
+    }
+
 end
 
 function Credits:update(dt)
@@ -33,7 +43,14 @@ function Credits:draw()
     camera:attach(0, 0, gw, gh)
         self.area:draw()
         love.graphics.setFont(fonts.qilka)
-        printInsideRect("Credits", fonts.qilka, "center")
+        love.graphics.draw(sprites.title, gw / 2 - (sprites.title:getWidth() * self.titleScale) - 20, 100, 0,  self.titleScale, self.titleScale)
+        love.graphics.draw(sprites.ggj, gw / 2 + 20, 30, 0,  self.ggjScale, self.ggjScale)
+
+        love.graphics.print(self.text[1], gw / 2 - (fonts.qilka:getWidth(self.text[1]) / 2), 512 + (fonts.qilka:getHeight() * 0))
+        love.graphics.print(self.text[2], gw / 2 - (fonts.qilka:getWidth(self.text[2]) / 2), 512 + (fonts.qilka:getHeight() * 1))
+        love.graphics.print(self.text[3], gw / 2 - (fonts.qilka:getWidth(self.text[3]) / 2), 512 + (fonts.qilka:getHeight() * 2))
+        
+        love.graphics.print(self.text[4], gw / 2 - (fonts.qilka:getWidth(self.text[4]) / 2), 592 + (fonts.qilka:getHeight() * 3))
   	camera:detach()
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)

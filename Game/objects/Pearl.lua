@@ -32,6 +32,8 @@ function Pearl:draw()
         sprite = sprites.hotPearl
     elseif self.type == 'heal' then
         sprite = sprites.healPearl
+    elseif self.type == 'break' then
+        sprite = sprites.breakPearl
     end
     love.graphics.draw(sprite, self.collider:getX(), self.collider:getY(), 0, nil, nil, sprite:getWidth() / 2, sprite:getWidth() / 2)
 end
