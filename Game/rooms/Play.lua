@@ -16,6 +16,13 @@ function Play:new()
     self.cupY = 200
     self.name = 'play'
 
+    self.canvasPos = {
+        x = gw,
+        y = 0
+    }
+
+    self.timer:tween(0.5, self.canvasPos, {x = 0, y = 0}, 'in-out-cubic')
+
     self.levels = {
         {spawns = chanceList({'normal', 8}, {'ice', 4}), time = 10, color = brown },
         {spawns = chanceList({'normal', 8}, {'ice', 4}, {'hot', 4}), time = 10, color = orange },
@@ -163,7 +170,7 @@ end
 function Play:draw()
     love.graphics.setCanvas(self.room_canvas)
     love.graphics.clear()
-    camera:attach(0, 0, gw, gh)
+    camera:attach(self.canvasPos.x, self.canvasPos.y, gw, gh)
         love.graphics.draw(sprites.table, 0, gh - sprites.table:getHeight(), 0)
         love.graphics.draw(sprites.shadow, gw / 2 - sprites.shadow:getWidth() / 2, 900, 0, nil, nil, 0 ,sprites.shadow:getHeight() / 2)
         love.graphics.setColor(self.current_level.color)
