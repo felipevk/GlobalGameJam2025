@@ -19,7 +19,7 @@ function Play:new()
     self.levels = {
         {spawns = chanceList({'normal', 8}, {'ice', 4}), time = 10, color = brown },
         {spawns = chanceList({'normal', 8}, {'ice', 4}, {'hot', 4}), time = 10, color = orange },
-        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}), time = 10, color = matcha },
+        {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 4}), time = 10, color = matcha },
         {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}, {'heal', 6}), time = 10, color = pink },
         {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}, {'heal', 6}), time = 10, color = mango },
         {spawns = chanceList({'normal', 10}, {'ice', 4}, {'hot', 6}, {'heal', 6}), time = 10, color = cyan },
@@ -78,6 +78,7 @@ function Play:startLevel()
     )
     if self.current_level_index == #self.levels then
         self.timer:after(2, function()
+            sounds.loss:play()
             -- show celebration and go to credits
          end)
          self.timer:after(3, function()
@@ -127,6 +128,11 @@ function Play:update(dt)
             sounds.complete:play()
             self.levelStats.isComplete = true
             self.timer:after(2, function() self:startLevel() end)
+        
+        elseif self.hp <= 0 then
+            self.levelStats.isComplete = true
+            sounds.loss:play()
+            self.timer:after(2, function() gotoRoom('Start') end)
         end
     end
 end
@@ -176,6 +182,7 @@ function Play:consumePearl(type)
     elseif type == 'hot' then
         self.hp = math.max(self.hp - 1, 0)
         sounds.hot:play()
+        print("damaged "..self.hp)
     elseif type == 'heal' then
         self.hp = math.min(self.hp + 1, self.maxHp)
         sounds.heal:play()

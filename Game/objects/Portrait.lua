@@ -9,7 +9,6 @@ function Portrait:new(area, x, y, opts)
 end
 
 function Portrait:update(dt)
-    print('updated portrait')
     Portrait.super.update(self, dt)
     if self.play.hp == 4 then
         self.sprite = sprites.h4
