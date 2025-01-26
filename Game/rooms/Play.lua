@@ -187,6 +187,7 @@ function Play:consumePearl(type)
         camera:shake(6, 60, 0.4)
     elseif type == 'heal' then
         self.hp = math.min(self.hp + 1, self.maxHp)
+        flash(4, {123/255, 166/255, 70/255, 0.3})
         sounds.heal:play()
     end
 end
