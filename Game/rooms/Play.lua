@@ -44,7 +44,7 @@ function Play:new()
 
     self.current_level = {}
     self.current_level_index = 0
-    self.maxHp = 5
+    self.maxHp = 4
     self.hp = self.maxHp
 
     self.levelStats = {
@@ -52,6 +52,8 @@ function Play:new()
         goal = 0,
         isComplete = false,
     }
+
+    self.area:addGameObject('Portrait', gw - 200 - 32, 32, {play = self})
 
     self:startLevel()
 end
@@ -146,7 +148,7 @@ function Play:draw()
         
         love.graphics.setFont(self.demoFont)
         printInsideRect("Consumed: "..self.levelStats.consumed.." / "..self.levelStats.goal, self.demoFont, "bottomLeft")
-        printInsideRect("Hp: "..self.hp.." / "..self.maxHp, self.demoFont, "bottomRight")
+        --printInsideRect("Hp: "..self.hp.." / "..self.maxHp, self.demoFont, "bottomRight")
         printInsideRect("Progress: "..self.current_level_index.." / "..#self.levels, self.demoFont, "bottom")
   	camera:detach()
     love.graphics.setCanvas()

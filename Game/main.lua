@@ -46,6 +46,11 @@ function love.load()
         table = love.graphics.newImage("resources/sprites/table.png"),
         cup = love.graphics.newImage("resources/sprites/cup.png"),
         shadow = love.graphics.newImage("resources/sprites/shadow.png"),
+        h4 = love.graphics.newImage("resources/sprites/h4.png"),
+        h3 = love.graphics.newImage("resources/sprites/h3.png"),
+        h2 = love.graphics.newImage("resources/sprites/h2.png"),
+        h1 = love.graphics.newImage("resources/sprites/h1.png"),
+        h0 = love.graphics.newImage("resources/sprites/h0.png"),
     }
 
     --[[input:bind('left', 'left')

@@ -5,7 +5,7 @@ gh = 1080
 sx = 1
 sy = 1
 debug = true
-drawCol = true
+drawCol = false
 
 
 function love.conf(t)
