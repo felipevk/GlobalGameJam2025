@@ -53,6 +53,20 @@ function love.load()
         h0 = love.graphics.newImage("resources/sprites/h0.png"),
     }
 
+    sounds = {
+        main = love.audio.newSource("resources/audio/main.mp3", "stream"),
+        gameOver = love.audio.newSource("resources/audio/gameover.wav", "static"),
+        loss = love.audio.newSource("resources/audio/loss.wav", "static"),
+        normal = love.audio.newSource("resources/audio/normal.wav", "static"),
+        hot = love.audio.newSource("resources/audio/hot.wav", "static"),
+        heal = love.audio.newSource("resources/audio/heal.wav", "static"),
+    }
+
+    sounds.main:setLooping(true)
+    sounds.main:setVolume(0.1)
+    sounds.heal:setVolume(0.3)
+    sounds.main:play()
+
     --[[input:bind('left', 'left')
     input:bind('right', 'right')
     input:bind('a', 'left')

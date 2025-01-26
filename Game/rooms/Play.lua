@@ -43,7 +43,7 @@ function Play:new()
     end
 
     self.current_level = {}
-    self.current_level_index = 0
+    self.current_level_index = 3
     self.maxHp = 4
     self.hp = self.maxHp
 
@@ -161,10 +161,13 @@ end
 function Play:consumePearl(type)
     if type == 'normal' then
         self.levelStats.consumed = self.levelStats.consumed + 1
+        sounds.normal:play()
     elseif type == 'hot' then
         self.hp = math.max(self.hp - 1, 0)
+        sounds.hot:play()
     elseif type == 'heal' then
         self.hp = math.min(self.hp + 1, self.maxHp)
+        sounds.heal:play()
     end
 end
 
