@@ -66,6 +66,10 @@ function love.load()
         complete = love.audio.newSource("resources/audio/complete.wav", "static"),
     }
 
+    fonts = {
+        qilka = love.graphics.newFont("resources/fonts/Qilkabold-DO6BR.otf", 60)
+    }
+
     sounds.main:setLooping(true)
     sounds.main:setVolume(0.1)
     sounds.heal:setVolume(0.3)
