@@ -130,8 +130,18 @@ function Play:draw()
     love.graphics.clear()
     camera:attach(0, 0, gw, gh)
         love.graphics.draw(sprites.table, 0, gh - sprites.table:getHeight(), 0)
-        love.graphics.draw(sprites.cup, gw / 2 - sprites.cup:getWidth() / 2, 900, 0, nil, nil, 0 ,sprites.cup:getHeight())
         love.graphics.draw(sprites.shadow, gw / 2 - sprites.shadow:getWidth() / 2, 900, 0, nil, nil, 0 ,sprites.shadow:getHeight() / 2)
+        love.graphics.draw(sprites.cup, gw / 2 - sprites.cup:getWidth() / 2, 900, 0, nil, nil, 0 ,sprites.cup:getHeight())
+        
+        local cupXOffset = 800
+        if self.current_level_index > 1 then
+            love.graphics.draw(sprites.shadow, gw / 2 - sprites.shadow:getWidth() / 2 - cupXOffset, 900, 0, 0.6, 0.6, 0 ,sprites.shadow:getHeight() / 2)
+            love.graphics.draw(sprites.cup, gw / 2 - sprites.cup:getWidth() / 2 - cupXOffset, 900, 0, 0.6, 0.6, 0 ,sprites.cup:getHeight())
+        end
+        if self.current_level_index < #self.levels then
+            love.graphics.draw(sprites.shadow, gw / 2 + cupXOffset, 900, 0, 0.6, 0.6, 0 ,sprites.shadow:getHeight() / 2)
+            love.graphics.draw(sprites.cup, gw / 2 + cupXOffset, 900, 0, 0.6, 0.6, 0 ,sprites.cup:getHeight())
+        end
         self.area:draw()
         
         love.graphics.setFont(self.demoFont)
