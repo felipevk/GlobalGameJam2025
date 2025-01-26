@@ -18,7 +18,7 @@ end
 function Pearl:update(dt)
     Pearl.super.update(self, dt)
 
-    if not self.play.levelStats.isComplete and self.y < -10 then
+    if not self.play.levelStats.isComplete and (self.y < -10 or self.x < 0 or self.x > gw) then
         self.play:consumePearl(self.type)
         self:die()
     end

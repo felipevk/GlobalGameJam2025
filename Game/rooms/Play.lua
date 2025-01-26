@@ -146,7 +146,8 @@ function Play:update(dt)
         if self.levelStats.consumed == self.levelStats.goal then
             sounds.complete:play()
             self.levelStats.isComplete = true
-            self.timer:after(2, function() self:startLevel() end)
+            self.area:addGameObject('RoundCompleteEffect', 0, 0)
+            self.timer:after(1, function() self:startLevel() end)
         
         elseif self.hp <= 0 then
             self.levelStats.isComplete = true
@@ -203,7 +204,7 @@ function Play:draw()
                 printInsideRect("You died while drinking bubble tea", fonts.qilka, "center")
             else
                 love.graphics.setColor(0, 1, 0, textA)
-                printInsideRect("You win!", fonts.qilka, "center")
+                printInsideRect("You won free bubble tea for life!", fonts.qilka, "center")
             end
 
             love.graphics.setColor(1, 1, 1, 1)
@@ -230,6 +231,7 @@ function Play:consumePearl(type)
         sounds.hot:play()
         flash(4, {224/255, 120/255, 23/255, 0.3})
         camera:shake(6, 60, 0.4)
+        self.area:addGameObject('DamageEffect', 0, 0)
     elseif type == 'heal' then
         self.hp = math.min(self.hp + 1, self.maxHp)
         flash(4, {123/255, 166/255, 70/255, 0.3})

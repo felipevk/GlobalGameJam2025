@@ -58,6 +58,8 @@ function love.load()
         title = love.graphics.newImage("resources/sprites/title.png"),
         ggj = love.graphics.newImage("resources/sprites/ggjv.png"),
         breakPearl = love.graphics.newImage("resources/sprites/break.png"),
+        yummy = love.graphics.newImage("resources/sprites/yummy.png"),
+        yuck = love.graphics.newImage("resources/sprites/yuck.png"),
     }
 
     sounds = {
@@ -93,6 +95,7 @@ function love.load()
     input:bind('mouse1', 'drink')
     input:bind('f2', 'shortcut')
     input:bind('escape', 'exit')
+    input:bind('c', 'goToCredits')
 
     gotoRoom("Start")
 
@@ -102,6 +105,9 @@ end
 function love.update(dt)
     if input:pressed('exit') then
         love.event.quit()
+    end
+    if input:pressed('goToCredits') then
+        gotoRoom("Credits")
     end
     timer:update(dt*slow_amount)
     camera:update(dt*slow_amount)
