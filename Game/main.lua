@@ -54,6 +54,7 @@ function love.load()
         liquid = love.graphics.newImage("resources/sprites/liquid.png"),
         progress = love.graphics.newImage("resources/sprites/progress.png"),
         progressIndicator = love.graphics.newImage("resources/sprites/progressIndicator.png"),
+        instructions = love.graphics.newImage("resources/sprites/instructions.png"),
     }
 
     sounds = {

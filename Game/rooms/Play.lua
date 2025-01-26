@@ -77,8 +77,8 @@ function Play:startLevel()
         end
     )
     if self.current_level_index == #self.levels then
-        self.timer:after(2, function()
-            sounds.loss:play()
+        self.timer:after(1, function()
+            sounds.gameOver:play()
             -- show celebration and go to credits
          end)
          self.timer:after(3, function()
@@ -161,10 +161,11 @@ function Play:draw()
             love.graphics.draw(sprites.shadow, gw / 2 + cupXOffset, 900, 0, 0.6, 0.6, 0 ,sprites.shadow:getHeight() / 2)
             love.graphics.draw(sprites.cup, gw / 2 + cupXOffset, 900, 0, 0.6, 0.6, 0 ,sprites.cup:getHeight())
         end
+        love.graphics.draw(sprites.instructions, 20, 50, 0, nil, nil, 0 )
         self.area:draw()
         
         love.graphics.setFont(self.demoFont)
-        printInsideRect("Consumed: "..self.levelStats.consumed.." / "..self.levelStats.goal, self.demoFont, "bottomLeft")
+        --printInsideRect("Consumed: "..self.levelStats.consumed.." / "..self.levelStats.goal, self.demoFont, "bottomLeft")
         --printInsideRect("Hp: "..self.hp.." / "..self.maxHp, self.demoFont, "bottomRight")
         --printInsideRect("Progress: "..self.current_level_index.." / "..#self.levels, self.demoFont, "bottom")
   	camera:detach()
