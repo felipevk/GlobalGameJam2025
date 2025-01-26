@@ -45,9 +45,10 @@ function Play:new()
     end
 
     self.current_level = {}
-    self.current_level_index = 0
+    self.current_level_index = 5
     self.maxHp = 4
     self.hp = self.maxHp
+    self.isGameOver = false
 
     self.levelStats = {
         current_time = 0,
@@ -76,7 +77,9 @@ function Play:startLevel()
             o:die()
         end
     )
+
     if self.current_level_index == #self.levels then
+        self.isGameOver = true
         self.timer:after(1, function()
             sounds.gameOver:play()
             -- show celebration and go to credits
@@ -115,11 +118,14 @@ end
 function Play:update(dt)
     if input:pressed('shortcut') then
         gotoRoom('Start')
+        return
     end
     if self.timer then self.timer:update(dt) end
     -- this keeps the camera centered after shake
     camera.smoother = Camera.smooth.damped(5)
     camera:lockPosition(dt, gw/2, gh/2)
+
+    if self.isGameOver then return end
     
     self.area:update(dt)
 
@@ -132,6 +138,7 @@ function Play:update(dt)
         elseif self.hp <= 0 then
             self.levelStats.isComplete = true
             sounds.loss:play()
+            self.isGameOver = true
             self.timer:after(2, function() gotoRoom('Start') end)
         end
     end

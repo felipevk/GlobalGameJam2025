@@ -5,6 +5,8 @@ function Start:new()
     self.room_canvas = love.graphics.newCanvas(gw, gh)
 
     self.demoFont = love.graphics.newFont(40)
+
+    self.name = 'start'
 end
 
 function Start:update(dt)
