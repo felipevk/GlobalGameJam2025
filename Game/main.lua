@@ -70,6 +70,7 @@ function love.load()
         hot = love.audio.newSource("resources/audio/hot.wav", "static"),
         heal = love.audio.newSource("resources/audio/heal.wav", "static"),
         complete = love.audio.newSource("resources/audio/complete.wav", "static"),
+        iceBreak = love.audio.newSource("resources/audio/iceBreak.wav", "static"),
     }
 
     fonts = {

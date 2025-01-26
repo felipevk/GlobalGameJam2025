@@ -248,8 +248,7 @@ function Play:consumePearl(type)
                 o:die()
             end
         )
-        --change to new sound
-        sounds.heal:play()
+        sounds.iceBreak:play()
     end
 end
 
