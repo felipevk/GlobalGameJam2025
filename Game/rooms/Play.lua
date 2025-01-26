@@ -43,7 +43,7 @@ function Play:new()
     end
 
     self.current_level = {}
-    self.current_level_index = 3
+    self.current_level_index = 0
     self.maxHp = 4
     self.hp = self.maxHp
 

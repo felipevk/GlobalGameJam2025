@@ -79,7 +79,7 @@ function Straw:update(dt)
         self.right:setY(self.topRightStraw.y)
         self.right:setAngle(self.angleToPivot)
 
-        if input:pressed('drink') then
+        if input:down('drink') then
             self.isDrinking = true
 
             local queryPoint = movePointDistanceAngle(mouseX, mouseY, 20, self.angleToPivot - math.pi / 2)
@@ -107,7 +107,7 @@ function Straw:update(dt)
                 local distanceToTop = distanceBetweenPoints(colliders[i]:getX(), colliders[i]:getY(), topLeftExtended.x, topLeftExtended.y)
                 if distanceToTop > 0 then
                     
-                    local forceIntensity = 90000 / (distanceToTop / 1000)
+                    local forceIntensity = 80000 / (distanceToTop / 1000)
                     local forceDir = Vector(math.cos(self.angleToPivot), math.sin(self.angleToPivot))
                     colliders[i]:applyForce( forceDir.x * forceIntensity,  forceDir.y * forceIntensity)
                 end
@@ -119,12 +119,12 @@ end
 
 function Straw:draw()
     love.graphics.setColor(0,0,1,1)
-    love.graphics.circle('fill',self.topStraw.x,self.topStraw.y,5)
-    love.graphics.circle('fill',self.topLeftStraw.x,self.topLeftStraw.y,5)
-    love.graphics.circle('fill',self.topRightStraw.x,self.topRightStraw.y,5)
+    --love.graphics.circle('fill',self.topStraw.x,self.topStraw.y,5)
+    --love.graphics.circle('fill',self.topLeftStraw.x,self.topLeftStraw.y,5)
+    --love.graphics.circle('fill',self.topRightStraw.x,self.topRightStraw.y,5)
     love.graphics.setColor(0,1,0,1)
-    love.graphics.circle('fill',self.pivotPoint.x,self.pivotPoint.y,5)
-    love.graphics.setColor(1,1,1,0.8)
+    --love.graphics.circle('fill',self.pivotPoint.x,self.pivotPoint.y,5)
+    love.graphics.setColor(1,1,1,0.5)
 
     love.graphics.draw(sprites.straw, self.strawSpritePos.x, self.strawSpritePos.y, self.angleToPivot - math.pi, nil, nil, sprites.straw:getWidth(), sprites.straw:getHeight() / 2)
     love.graphics.setColor(1,1,1,1)
