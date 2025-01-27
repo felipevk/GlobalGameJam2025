@@ -84,15 +84,6 @@ function love.load()
 
     flashColor = {1,1,1,1}
 
-    --[[input:bind('left', 'left')
-    input:bind('right', 'right')
-    input:bind('a', 'left')
-    input:bind('d', 'right')
-    input:bind('up', 'up')
-    input:bind('down', 'down')
-    input:bind('w', 'up')
-    input:bind('s', 'down')]]
-
     input:bind('mouse1', 'drink')
     input:bind('f2', 'shortcut')
     input:bind('escape', 'exit')

@@ -4,9 +4,7 @@ function Play:new()
     self.area = Area(self)
     self.timer = Timer()
     self.area:addPhysicsWorld()
-    --self.area.world:addCollisionClass('Straw')
     self.area.world:addCollisionClass('Pearl')
-    --self.area.world:addCollisionClass('Background')
     self.room_canvas = love.graphics.newCanvas(gw, gh)
 
     self.cupW = 600
@@ -188,6 +186,9 @@ function Play:draw()
         end
         if self.current_level_index < #self.levels then
             love.graphics.draw(sprites.shadow, gw / 2 + cupXOffset, 900, 0, 0.6, 0.6, 0 ,sprites.shadow:getHeight() / 2)
+            love.graphics.setColor(self.levels[self.current_level_index+1].color)
+            love.graphics.draw(sprites.liquid, gw / 2 + cupXOffset + 5, 900, 0, 0.6, 0.6, 0 ,sprites.liquid:getHeight())
+            love.graphics.setColor(1, 1, 1, 1)
             love.graphics.draw(sprites.cup, gw / 2 + cupXOffset, 900, 0, 0.6, 0.6, 0 ,sprites.cup:getHeight())
         end
         love.graphics.draw(sprites.instructions, 20, 50, 0, nil, nil, 0 )
@@ -209,11 +210,6 @@ function Play:draw()
 
             love.graphics.setColor(1, 1, 1, 1)
         end
-        
-        --love.graphics.setFont(self.demoFont)
-        --printInsideRect("Consumed: "..self.levelStats.consumed.." / "..self.levelStats.goal, self.demoFont, "bottomLeft")
-        --printInsideRect("Hp: "..self.hp.." / "..self.maxHp, self.demoFont, "bottomRight")
-        --printInsideRect("Progress: "..self.current_level_index.." / "..#self.levels, self.demoFont, "bottom")
   	camera:detach()
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)
