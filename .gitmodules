@@ -19,3 +19,6 @@
 [submodule "Game/libraries/Simple-Tiled-Implementation"]
 	path = Game/libraries/Simple-Tiled-Implementation
 	url = https://github.com/karai17/Simple-Tiled-Implementation.git
+[submodule "Game/libraries/windfield"]
+	path = Game/libraries/windfield
+	url = https://github.com/george-karma/windfield.git
