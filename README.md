@@ -1,4 +1,4 @@
-### Running the code
+### Cloning
 
 `git clone https://github.com/felipevk/GlobalGameJam2025.git --recurse-submodules`
 
